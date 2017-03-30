@@ -1,19 +1,42 @@
-{% extends 'layout.html' %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Amazon Login</title>
+  <script>
+    var config = {
+      client_secret_key : '{{ AMAZON_CLIENT_KEY }}',
+      redirect_url : '{{ AMAZON_REDIRECT_URL }}'
+    };
+  </script>
+</head>
+<body>
+	<div id="amazon-root"></div>
+	<script type="text/javascript">
+	  window.onAmazonLoginReady = function() {
+	    amazon.Login.setClientId(config.client_secret_key);
+	  };
+	  (function(d) {
+	    var a = d.createElement('script'); a.type = 'text/javascript';
+	    a.async = true; a.id = 'amazon-login-sdk';
+	    a.src = 'https://api-cdn.amazon.com/sdk/login1.js';
+	    d.getElementById('amazon-root').appendChild(a);
+	  })(document);
+	</script>
 
-{% block content %}
-  <a href="#" id="LoginWithAmazon">
-  <img border="0" alt="Login with Amazon"
-    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
-    width="156" height="32" />
-</a>
+	<a href="#" id="LoginWithAmazon">
+		<img border="0" alt="Login with Amazon"
+		src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
+		width="156" height="32" />
+	</a>
 
-<script type="text/javascript">
-
-  document.getElementById('LoginWithAmazon').onclick = function() {
-    options = { scope : 'profile', popup:true };
-    amazon.Login.authorize(options, 'https://wonder-amazon.ngrok.io/auth');
-    return false;
-  };
-
-</script>
-{% endblock %}
+	<script type="text/javascript">
+	  document.getElementById('LoginWithAmazon').onclick = function() {
+	    options = { scope : 'profile', popup:true };
+	    amazon.Login.authorize(options, config.redirect_url);
+	    return false;
+	  };
+	</script>
+</body>
+</html>

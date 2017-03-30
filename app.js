@@ -12,7 +12,7 @@ app.set('view engine', 'html');
 
 
 app.get('/', function(req,res) {
-	res.render('index');
+	res.render('index',{AMAZON_CLIENT_ID : process.env.AMAZON_CLIENT_ID, AMAZON_REDIRECT_URL : process.env.AMAZON_REDIRECT_URL});
 });
 
 app.get('/auth', function(req,res) {
